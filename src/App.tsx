@@ -1,7 +1,6 @@
-import { useEffect, useState } from 'react';
-import axios from 'axios';
 
 import './App.css';
+import { useFecth } from './hooks/useFetch';
 
 type Repository = {
   full_name: string
@@ -10,18 +9,14 @@ type Repository = {
 
 function App() {
 
-  const  [repositories, setRepositories] = useState<Repository[]>([]);
+  const { data : repositories, isFetching } =
+   useFecth<Repository[]>('/users/kleutons/repos');
 
-  useEffect(() => {
-    axios.get('https://api.github.com/users/kleutons/repos')
-    .then(response => {
-      setRepositories(response.data);
-    })
-  } , [])
 
   return (
     <ul>
-      {repositories.map(repo => {
+      {isFetching && <p>Carregando...</p> }
+      {repositories?.map(repo => {
         return(
           <li key={repo.full_name}>
             <strong>{repo.full_name}</strong>
