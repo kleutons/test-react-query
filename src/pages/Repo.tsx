@@ -1,6 +1,6 @@
 
 import { useParams } from 'react-router-dom'
-import { useQueryClient } from 'react-query'
+import { useQueryClient } from '@tanstack/react-query'
 import { TypeRepository } from '../types/repository';
 import { useState } from 'react';
 
@@ -20,7 +20,7 @@ export function Repo() {
 
     async function handleEditCache(){
         // Chamada API para atualizar a descrição do repositorio em cache
-        const listRepos = queryClient.getQueryData<TypeRepository[]>('repos')
+        const listRepos = queryClient.getQueryData<TypeRepository[]>(['repos'])
 
         if( listRepos ){
 
@@ -32,7 +32,7 @@ export function Repo() {
                 }
             })
 
-            queryClient.setQueryData('repos', newRepos)
+            queryClient.setQueryData(['repos'], newRepos)
         }
 
     }
