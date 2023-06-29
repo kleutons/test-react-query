@@ -1,31 +1,14 @@
+import { Routes, Route } from "react-router-dom";
+import { Repos } from "./pages/Repos";
+import { Repo } from "./pages/Repo";
 
-import './App.css';
-import { useFecth } from './hooks/useFetch';
+export function App() {
 
-type Repository = {
-  full_name: string
-  description: string
+  return(
+    <Routes>
+      <Route path='/' element={<Repos />} />
+      <Route path='/repo/*' element={<Repo />} />
+    </Routes>
+  )
+  
 }
-
-function App() {
-
-  const { data : repositories, isFetching } =
-   useFecth<Repository[]>('/users/kleutons/repos');
-
-
-  return (
-    <ul>
-      {isFetching && <p>Carregando...</p> }
-      {repositories?.map(repo => {
-        return(
-          <li key={repo.full_name}>
-            <strong>{repo.full_name}</strong>
-            <p>{repo.description}</p>
-          </li>
-        )
-      })}
-    </ul>
-  );
-}
-
-export default App;
